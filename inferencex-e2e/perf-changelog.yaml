@@ -12785,3 +12785,11 @@
     - "Concurrency 12 and 24: CUDA graphs also for prefill and mixed steps up to 4096 tokens (#4878 recipe without the TEP shared-expert variable); DSpark drafts 3 tokens; prefill-schedule-interval 8."
     - "Concurrency 48 and 64: EP8 MegaMoE with FULL_DECODE_ONLY graphs, max-num-batched-tokens 16384, prefill-schedule-interval 8 and gpu-memory-utilization 0.97."
   pr-link: https://github.com/SemiAnalysisAI/InferenceX/pull/4871
+
+- config-keys:
+    - minimaxm31flash-fp4-mi355x-vllm-agentic-dspark-disagg
+  scenario-type: [agentic-coding]
+  description:
+    - "Add MiniMax-M3.1-Flash PD-disaggregated AgentX on MI355X with vLLM: TP4 prefill and decode engines moving KV over MoRI-IO RDMA WRITE behind vllm-router 0.1.16 with consistent-hash routing, at concurrency 40, 48, 64, 72 and 80. Seven-token DSpark, NVFP4 KV and indexer caches, and a host KV tier on the prefill engine (1349 GB at c40-c64, 1499 GB at c72-c80). At c80 the prefill schedules at most 4096 tokens of a prompt per step."
+    - "Use vllm/vllm-openai-rocm:nightly-96710245ece8fe57a0df3ea18cdc79cbb8ce93cf, which includes vllm-project/vllm#65822 (MoRI-IO WRITE skips the blocks the decoder's prefix cache already holds)."
+  pr-link: https://github.com/SemiAnalysisAI/InferenceX/pull/4973
